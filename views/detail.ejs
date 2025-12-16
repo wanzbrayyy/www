@@ -1,0 +1,88 @@
+<%- include('partials/header') %>
+
+<style>
+    .article-body {
+        font-family: 'Georgia', serif;
+        font-size: 1.15rem;
+        line-height: 1.9;
+        color: #333;
+        white-space: pre-wrap;
+    }
+    .related-posts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+</style>
+
+<!-- HEADER DETAIL -->
+<div class="detail-header">
+    <h1 style="max-width: 800px; margin: 0 auto; line-height: 1.3; font-size: 2.5rem;"><%= article.title %></h1>
+    <div style="margin-top: 20px; font-size: 0.9rem; color: #fff;">
+        <span><i class="far fa-user"></i> <%= article.author %></span> &nbsp;|&nbsp;
+        <span><i class="far fa-calendar"></i> <%= new Date(article.createdAt).toLocaleDateString() %></span> &nbsp;|&nbsp;
+        <span class="text-gold"><i class="far fa-eye"></i> <span id="viewCount"><%= article.views %></span> Views</span>
+    </div>
+</div>
+
+<!-- CONTENT CONTAINER -->
+<div class="detail-container">
+    <img src="/uploads/<%= article.image %>" class="detail-img" onerror="this.src='https://via.placeholder.com/800x400'">
+    
+    <!-- KONTEN UTAMA ARTIKEL -->
+    <article class="article-body">
+        <%- article.content %>
+    </article>
+
+    <!-- GARIS PEMISAH -->
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 50px 0;">
+
+    <!-- ARTIKEL TERKAIT -->
+    <% if (relatedArticles.length > 0) { %>
+        <div>
+            <h3 style="text-transform: uppercase; text-align: center; margin-bottom: 30px;">You Might Also Like</h3>
+            <div class="related-posts-grid">
+                <% relatedArticles.forEach(related => { %>
+                    <div class="blog-card" style="margin-bottom: 20px;">
+                        <a href="/blog/<%= related._id %>">
+                            <img src="/uploads/<%= related.image %>" class="blog-img" style="height: 180px;">
+                            <div class="blog-content" style="padding: 15px;">
+                                <h4 class="blog-title" style="font-size: 1rem; height: auto;"><%= related.title %></h4>
+                            </div>
+                        </a>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 50px 0;">
+    <% } %>
+
+    <!-- KOMENTAR -->
+    <div class="comment-box">
+        <h3 style="text-transform: uppercase;">Discussion</h3>
+        
+        <form id="commentForm" style="margin-top: 20px;">
+            <input type="text" id="nameInput" class="form-control" placeholder="Your Name" required>
+            <textarea id="textInput" class="form-control" rows="3" placeholder="Write a comment..." required></textarea>
+            <button type="submit" class="btn-gold" style="font-size: 0.8rem;">POST COMMENT</button>
+        </form>
+
+        <div id="commentList" style="margin-top: 40px;">
+            <% comments.forEach(comment => { %>
+                <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #ddd;">
+                    <div style="font-weight: 700; color: #000; display: flex; justify-content: space-between;">
+                        <%= comment.name %>
+                        <small style="color: #999; font-weight: 400;"><%= new Date(comment.createdAt).toLocaleDateString() %></small>
+                    </div>
+                    <p style="color: #555; margin-top: 5px;"><%= comment.text %></p>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ARTICLE_ID = '<%= article._id %>';
+</script>
+
+<%- include('partials/footer') %>

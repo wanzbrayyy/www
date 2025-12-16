@@ -1,0 +1,30 @@
+<%- include('../partials/header') %>
+<div class="container" style="padding: 40px 20px; background: #fff; color: #333; max-width: 600px; margin-top: 40px; border-radius: 8px; border-top: 5px solid #bf9b30;">
+    <h2>Edit B2B Service</h2>
+    <form action="/admin/service/update/<%= data._id %>?_method=PUT" method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
+        
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Service Name</label>
+            <input type="text" name="title" value="<%= data.title %>" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Description</label>
+            <textarea name="description" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" rows="4"><%= data.description %></textarea>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Current Image</label>
+            <img src="/uploads/<%= data.image %>" style="width: 150px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label style="font-weight: bold; display: block; margin-bottom: 5px;">Change Image (Optional)</label>
+            <input type="file" name="image" style="width: 100%;">
+        </div>
+
+        <button type="submit" class="btn-gold" style="color: #fff; background: #000; border: none;">UPDATE SERVICE</button>
+        <a href="/admin" style="margin-left: 20px; color: #666; text-decoration: underline;">Cancel</a>
+    </form>
+</div>
+<%- include('../partials/footer') %>

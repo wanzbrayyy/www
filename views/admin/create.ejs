@@ -1,0 +1,69 @@
+<%- include('../partials/header') %>
+
+<style>
+    /* Menggunakan style dasar dari dashboard tapi difokuskan untuk form */
+    body { background-color: #f4f4f4; }
+    .form-container {
+        max-width: 800px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        border-top: 5px solid #bf9b30;
+    }
+    .form-header {
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
+    .form-control {
+        width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit;
+    }
+    .form-control:focus { border-color: #bf9b30; outline: none; }
+    .btn-submit {
+        background: #000; color: #bf9b30; padding: 12px 30px; border: none; border-radius: 50px; 
+        font-weight: bold; cursor: pointer; text-transform: uppercase;
+    }
+    .btn-submit:hover { background: #333; }
+    .btn-back { color: #666; text-decoration: underline; margin-left: 15px; font-size: 0.9rem; }
+</style>
+
+<div class="form-container">
+    <div class="form-header">
+        <h2>Create New <%= type === 'article' ? 'Article' : 'Content' %></h2>
+    </div>
+
+    <% if(type === 'article') { %>
+        <form action="/admin/article/store" method="POST" enctype="multipart/form-data">
+            
+            <div class="form-group">
+                <label class="form-label">Article Title</label>
+                <input type="text" name="title" class="form-control" placeholder="Enter article title..." required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Featured Image</label>
+                <input type="file" name="image" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Content</label>
+                <textarea name="content" class="form-control" rows="10" placeholder="Write your content here..." required></textarea>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button type="submit" class="btn-submit">Publish Article</button>
+                <a href="/admin" class="btn-back">Cancel & Go Back</a>
+            </div>
+
+        </form>
+    <% } else { %>
+        <p>Form for this type is not yet implemented.</p>
+        <a href="/admin" class="btn-back">Go Back</a>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>
