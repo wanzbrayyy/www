@@ -1,21 +1,97 @@
 <%- include('partials/header') %>
 
+<style>
+    .hero-section {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+        gap: 2px;
+        background: #222;
+    }
+    .hero-card {
+        position: relative;
+        height: 85vh;
+        overflow: hidden;
+        background: #000;
+    }
+    .hero-card img {
+        height: 100%;
+        width: 100%;
+        transition: transform 0.6s ease, filter 0.6s ease;
+        filter: brightness(0.6);
+        object-fit: cover;
+    }
+    .hero-card:hover img {
+        transform: scale(1.05);
+        filter: brightness(0.9);
+    }
+    .hero-content {
+        position: absolute;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        text-align: center;
+        padding: 0 20px;
+        z-index: 2;
+    }
+    .hero-title {
+        font-size: 1.8rem;
+        font-weight: 300;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        line-height: 1.3;
+        color: var(--text-white);
+        margin-bottom: 25px;
+        white-space: pre-line;
+    }
+    @media (max-width: 992px) {
+        .hero-section {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 10px;
+            gap: 10px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .hero-section::-webkit-scrollbar {
+            display: none;
+        }
+        .hero-card {
+            min-width: 85%;
+            height: 50vh;
+            scroll-snap-align: center;
+            border-radius: 8px;
+        }
+    }
+</style>
+
 <div class="hero-section">
-    <% heroes.forEach(hero => { %>
-        <div class="hero-card">
-            <img src="/uploads/<%= hero.image %>" onerror="this.src='https://images.unsplash.com/photo-1608571423902-eed4a5e84e8c?q=80&w=1000'">
-            <div class="hero-content">
-                <h1 class="hero-title"><%= hero.title %></h1>
-                <% if(hero.subtitle) { %>
-                    <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 20px;"><%= hero.subtitle %></p>
-                <% } %>
-                <button class="btn-gold" style="padding: 8px 30px; font-size: 0.8rem;">OPEN</button>
-            </div>
+    <div class="hero-card">
+        <img src="/uploads/<%= heroes[0] ? heroes[0].image : 'default.jpg' %>" onerror="this.src='https://images.unsplash.com/photo-1608571423902-eed4a5e84e8c?q=80&w=1000'">
+        <div class="hero-content">
+            <h1 class="hero-title"><%= heroes[0] ? heroes[0].title : 'INDONESIAN WHOLESALE' %></h1>
+            <a href="#about" class="btn-gold" style="padding: 8px 30px; font-size: 0.8rem; color: #000; font-weight: 700;">OPEN</a>
         </div>
-    <% }) %>
+    </div>
+    <div class="hero-card">
+        <img src="/uploads/<%= heroes[1] ? heroes[1].image : 'default.jpg' %>" onerror="this.src='https://images.unsplash.com/photo-1556228723-8831b1afe3be?q=80&w=1000'">
+        <div class="hero-content">
+            <h1 class="hero-title"><%= heroes[1] ? heroes[1].title : 'PRIVATE LABELLING' %></h1>
+            <a href="#private-labelling" class="btn-gold" style="padding: 8px 30px; font-size: 0.8rem; color: #000; font-weight: 700;">OPEN</a>
+        </div>
+    </div>
+    <div class="hero-card">
+        <img src="/uploads/<%= heroes[2] ? heroes[2].image : 'default.jpg' %>" onerror="this.src='https://images.unsplash.com/photo-1596701062351-8c2c14d8a178?q=80&w=1000'">
+        <div class="hero-content">
+            <h1 class="hero-title"><%= heroes[2] ? heroes[2].title : 'BUSINESS WITH IMPACT' %></h1>
+            <a href="#impact" class="btn-gold" style="padding: 8px 30px; font-size: 0.8rem; color: #000; font-weight: 700;">OPEN</a>
+        </div>
+    </div>
 </div>
 
-<div class="about-section bg-gold">
+<div class="about-section bg-gold" id="about">
     <div class="container">
         <h2 class="about-title">PLASMADINAH</h2>
         <p class="about-text">
@@ -53,11 +129,11 @@
     <div class="container">
         <h2 class="cat-title">PLASMADINAH PRODUCT CATEGORIES</h2>
         <p class="cat-sub">Natural Essential Oils, Carrier Oils & Base Oils</p>
-        <button id="openCatalogBtn" class="btn-gold" style="font-size: 1.2rem; padding: 15px 40px;">OPEN PRODUCT CATALOG +</button>
+        <button id="openCatalogBtn" class="btn-gold" style="font-size: 1.2rem; padding: 15px 40px; color: #000; font-weight: 700;">OPEN PRODUCT CATALOG +</button>
     </div>
 </div>
 
-<div class="about-section bg-gold">
+<div class="about-section bg-gold" id="private-labelling">
     <div class="container">
         <h2 class="about-title">PRIVATE LABELLING</h2>
         <p class="about-text" style="font-size: 1.2rem;">Your Brand, Our Expertise</p>
@@ -111,18 +187,22 @@
     </div>
 </div>
 
-<div class="impact-section">
+<div class="impact-section" id="impact">
     <div class="container">
         <h2 class="section-title text-center" style="margin-bottom: 50px;">BUSINESS WITH IMPACT</h2>
         <div class="impact-grid">
-            <div class="impact-card">
-                <img src="/uploads/circular-economy.jpg" style="height:100%; width:100%; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=1000'">
-                <div class="impact-text">CIRCULAR<br>ECONOMY</div>
-            </div>
-            <div class="impact-card">
-                <img src="/uploads/mental-health.jpg" style="height:100%; width:100%; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1493836512294-502baa1986e2?q=80&w=1000'">
-                <div class="impact-text">MENTAL<br>HEALTH</div>
-            </div>
+            <a href="https://www.instagram.com/plasmadinah/" target="_blank">
+                <div class="impact-card">
+                    <img src="/uploads/circular-economy.jpg" style="height:100%; width:100%; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=1000'">
+                    <div class="impact-text">CIRCULAR<br>ECONOMY</div>
+                </div>
+            </a>
+            <a href="https://www.facebook.com/share/1cLCqVNb8T/" target="_blank">
+                <div class="impact-card">
+                    <img src="/uploads/mental-health.jpg" style="height:100%; width:100%; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1493836512294-502baa1986e2?q=80&w=1000'">
+                    <div class="impact-text">MENTAL<br>HEALTH</div>
+                </div>
+            </a>
         </div>
     </div>
 </div>
