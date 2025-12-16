@@ -9,7 +9,7 @@
                 <% if(hero.subtitle) { %>
                     <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 20px;"><%= hero.subtitle %></p>
                 <% } %>
-                <button class="btn-gold" style="padding: 8px 30px; font-size: 0.8rem;">OPEN</button>
+                <button class="btn-gold" style="padding: 8px 30px; font-size: 0.8rem; color: #000; font-weight: 700;">OPEN</button>
             </div>
         </div>
     <% }) %>
@@ -53,7 +53,7 @@
     <div class="container">
         <h2 class="cat-title">PLASMADINAH PRODUCT CATEGORIES</h2>
         <p class="cat-sub">Natural Essential Oils, Carrier Oils & Base Oils</p>
-        <button id="openCatalogBtn" class="btn-gold" style="font-size: 1.2rem; padding: 15px 40px;">OPEN PRODUCT CATALOG +</button>
+        <button id="openCatalogBtn" class="btn-gold" style="font-size: 1.2rem; padding: 15px 40px; color: #000; font-weight: 700;">OPEN PRODUCT CATALOG +</button>
     </div>
 </div>
 

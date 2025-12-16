@@ -42,7 +42,7 @@
 
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
-        img { width: 100%; display: block; object-fit: cover; }
+        img { width: 100%; display: block; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .text-center { text-align: center; }
@@ -114,42 +114,8 @@
 
         .mobile-toggle { display: none; color: var(--primary-gold); font-size: 1.8rem; cursor: pointer; z-index: 1003; }
         
-        .mobile-menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.98);
-            z-index: 1002;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s, visibility 0.4s;
-        }
-        .mobile-menu-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .mobile-nav-links {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            color: #fff;
-        }
-        .mobile-nav-links a:hover {
-            color: var(--primary-gold);
-        }
-
         .hero-section {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
             width: 100%;
             gap: 2px;
             background: #222;
@@ -157,7 +123,8 @@
 
         .hero-card {
             position: relative;
-            height: 85vh;
+            flex: 1;
+            height: 65vh;
             overflow: hidden;
             background: #000;
         }
@@ -239,22 +206,81 @@
         .whatsapp-float:hover { transform: scale(1.05); }
         .whatsapp-float i { font-size: 1.5rem; }
 
-        @media (max-width: 992px) {
-            .navbar { justify-content: space-between; }
-            .nav-left, .nav-right { display: none; }
-            .mobile-toggle { display: block; }
-            .nav-logo-container { flex: none; }
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 1001;
+            display: none; justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: #111; color: #fff;
+            padding: 40px; border-radius: 8px;
+            width: 90%; max-width: 900px;
+            max-height: 80vh; overflow-y: auto;
+            position: relative; border: 1px solid var(--primary-gold);
+            box-shadow: 0 0 30px rgba(191, 155, 48, 0.3);
+        }
+        .modal-close {
+            position: absolute; top: 15px; right: 20px;
+            font-size: 2rem; color: #fff; cursor: pointer;
+            line-height: 1;
+        }
+        .modal-close:hover { color: var(--primary-gold); }
+        .product-list {
+            list-style: none; column-count: 3; column-gap: 30px;
+        }
+        .product-list li {
+            padding: 8px 0; border-bottom: 1px solid #333; color: var(--text-grey);
+            page-break-inside: avoid; break-inside: avoid;
+        }
 
-            .hero-section { grid-template-columns: 1fr; }
-            .hero-card { height: auto; aspect-ratio: 4 / 3; border-right: none; }
+        @media (max-width: 992px) {
+            .navbar { justify-content: space-between; padding: 10px 20px; flex-wrap: wrap; }
+            .nav-logo-container { flex: 1; text-align: left; }
+            .nav-logo-img { height: 60px; }
+            .nav-left, .nav-right {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                background: #000;
+                width: 100%;
+                left: 0;
+                top: 80px;
+                padding: 10px 0;
+                gap: 25px;
+                text-align: center;
+                border-bottom: 1px solid #222;
+            }
+            .nav-left.active { display: flex; }
+            .nav-right.active { display: flex; top: 220px; }
+            .mobile-toggle { display: block; }
+
+            .hero-section { 
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                padding: 10px;
+                gap: 10px;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .hero-section::-webkit-scrollbar { display: none; }
+            .hero-card { 
+                min-width: 85%;
+                height: 50vh;
+                scroll-snap-align: center;
+                border-radius: 8px;
+            }
             
             .service-grid { grid-template-columns: repeat(2, 1fr); }
             .blog-grid, .impact-grid { grid-template-columns: 1fr; }
             .about-title { font-size: 1.8rem; }
             .impact-card { height: 250px; }
+            .product-list { column-count: 2; }
         }
         @media (max-width: 576px) {
             .service-grid { grid-template-columns: 1fr; }
+            .product-list { column-count: 1; }
             .whatsapp-float span { display: none; }
             .whatsapp-float { padding: 15px; }
             .whatsapp-float i { font-size: 1.2rem; margin: 0; }
@@ -264,7 +290,7 @@
 <body>
 
 <nav class="navbar">
-    <div class="nav-left">
+    <div class="nav-left" id="navLeft">
         <a href="/" class="nav-links">HOME</a>
         <a href="#products" class="nav-links">PRODUCTS</a>
         <a href="#b2b" class="nav-links">B2B</a>
@@ -276,7 +302,7 @@
         </a>
     </div>
 
-    <div class="nav-right">
+    <div class="nav-right" id="navRight">
         <a href="#blog" class="nav-links">BLOG</a>
         <a href="#footer" class="nav-links">CONTACT</a>
         <% if(user) { %>
@@ -284,18 +310,7 @@
         <% } %>
     </div>
 
-    <div class="mobile-toggle" id="mobileToggle">
+    <div class="mobile-toggle" onclick="toggleMenu()">
         <i class="fas fa-bars"></i>
     </div>
 </nav>
-
-<div class="mobile-menu-overlay" id="mobileMenu">
-    <div class="mobile-nav-links">
-        <a href="/">HOME</a>
-        <a href="#products">PRODUCTS</a>
-        <a href="#b2b">B2B</a>
-        <a href="#blog">BLOG</a>
-        <a href="#footer">CONTACT</a>
-        <% if(user) { %><a href="/admin">ADMIN</a><% } %>
-    </div>
-</div>
