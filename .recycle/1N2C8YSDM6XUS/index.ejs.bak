@@ -1,0 +1,150 @@
+<%- include('partials/header') %>
+
+<div class="hero-section">
+    <% heroes.forEach(hero => { %>
+        <div class="hero-card">
+            <img src="/uploads/<%= hero.image %>" onerror="this.src='https://images.unsplash.com/photo-1608571423902-eed4a5e84e8c?q=80&w=1000'">
+            <div class="hero-content">
+                <h1 class="hero-title"><%= hero.title %></h1>
+                <% if(hero.subtitle) { %>
+                    <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 20px;"><%= hero.subtitle %></p>
+                <% } %>
+                <button class="btn-gold" style="padding: 8px 30px; font-size: 0.8rem; color: #000; font-weight: 700;">OPEN</button>
+            </div>
+        </div>
+    <% }) %>
+</div>
+
+<div class="about-section bg-gold">
+    <div class="container">
+        <h2 class="about-title">PLASMADINAH</h2>
+        <p class="about-text">
+            Plasmadinah is an online wholesale essential oil manufacturer.<br>
+            Leading the World's Cinnamon Oil, Lemongrass Oil, Blackpepper Oil & Sandalwood Oil Derivatives Production.
+        </p>
+        <div style="width: 50px; height: 2px; background: #000; margin: 20px auto;"></div>
+        <p class="about-text">
+            From Plant to Product: Pure Essential Oil Solutions<br>
+            Extracted with excellence - backed by purity.
+        </p>
+        <p class="about-subtext">Leaves, Flowers, Seeds, Stems, Roots</p>
+        <p class="about-subtext">Steam Distilled, Cold Pressed, Custom Extracted, Lab-Tested</p>
+    </div>
+</div>
+
+<div class="services-section" id="b2b">
+    <div class="container">
+        <h2 class="section-title text-center">OUR BUSINESS B2B</h2>
+        <div class="service-grid">
+            <% services.forEach(service => { %>
+                <div class="service-card">
+                    <img src="/uploads/<%= service.image %>" class="service-img" onerror="this.src='https://via.placeholder.com/300'">
+                    <div class="service-info">
+                        <h3 class="service-title"><%= service.title %></h3>
+                        <p class="service-desc"><%= service.description %></p>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<div class="category-section" id="products">
+    <div class="container">
+        <h2 class="cat-title">PLASMADINAH PRODUCT CATEGORIES</h2>
+        <p class="cat-sub">Natural Essential Oils, Carrier Oils & Base Oils</p>
+        <button id="openCatalogBtn" class="btn-gold" style="font-size: 1.2rem; padding: 15px 40px; color: #000; font-weight: 700;">OPEN PRODUCT CATALOG +</button>
+    </div>
+</div>
+
+<div class="about-section bg-gold">
+    <div class="container">
+        <h2 class="about-title">PRIVATE LABELLING</h2>
+        <p class="about-text" style="font-size: 1.2rem;">Your Brand, Our Expertise</p>
+        <p class="about-text">OEM & ODM: Private/White Label Solutions at Scale</p>
+        <div style="margin-top: 30px; font-weight: 600;">
+            Green Points Loyalty + Quality Assured + Plant Based & Vegan + Sustainable Packaging + Carbon Negative
+        </div>
+    </div>
+</div>
+
+<div class="blog-section" id="blog">
+    <div class="container">
+        <h2 class="section-title">OUR LATEST BLOG</h2>
+        <div class="blog-grid">
+            <% articles.forEach(article => { %>
+                <div class="blog-card">
+                    <a href="/blog/<%= article._id %>">
+                        <img src="/uploads/<%= article.image %>" class="blog-img" onerror="this.src='https://via.placeholder.com/300'">
+                        <div class="blog-content">
+                            <div class="blog-meta">ESSENTIAL OILS / <%= new Date(article.createdAt).toLocaleDateString() %></div>
+                            <h3 class="blog-title"><%= article.title %></h3>
+                            <p class="blog-snippet"><%= article.content.substring(0, 100) %>...</p>
+                        </div>
+                    </a>
+                </div>
+            <% }) %>
+        </div>
+        
+        <div style="text-align: center; margin-top: 50px; display: flex; justify-content: center; gap: 10px;">
+            <% if (totalPages > 1) { %>
+                <% if (currentPage > 1) { %>
+                    <a href="/?page=<%= currentPage - 1 %>#blog" style="background:#ddd; color:#333; padding: 10px 15px;">&laquo;</a>
+                <% } %>
+                
+                <% for(let i = 1; i <= totalPages; i++) { %>
+                    <a href="/?page=<%= i %>#blog" style="background:<%= i == currentPage ? '#333' : '#ddd' %>; color:<%= i == currentPage ? '#fff' : '#333' %>; padding: 10px 15px;"><%= i %></a>
+                <% } %>
+                
+                <% if (currentPage < totalPages) { %>
+                    <a href="/?page=<%= currentPage + 1 %>#blog" style="background:#ddd; color:#333; padding: 10px 15px;">&raquo;</a>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<div class="market-section">
+    <div class="container">
+        <h2 class="cat-title" style="font-size: 1.5rem;">GLOBAL EXPORT MARKET</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg" class="market-img" alt="World Map">
+    </div>
+</div>
+
+<div class="impact-section">
+    <div class="container">
+        <h2 class="section-title text-center" style="margin-bottom: 50px;">BUSINESS WITH IMPACT</h2>
+        <div class="impact-grid">
+            <div class="impact-card">
+                <img src="/uploads/circular-economy.jpg" style="height:100%; width:100%; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?q=80&w=1000'">
+                <div class="impact-text">CIRCULAR<br>ECONOMY</div>
+            </div>
+            <div class="impact-card">
+                <img src="/uploads/mental-health.jpg" style="height:100%; width:100%; object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1493836512294-502baa1986e2?q=80&w=1000'">
+                <div class="impact-text">MENTAL<br>HEALTH</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="productCatalogModal">
+    <div class="modal-content">
+        <span class="modal-close" id="closeCatalogBtn">&times;</span>
+        <h2 class="text-gold" style="text-align: center; margin-bottom: 30px;">PRODUCT CATALOG</h2>
+        <ul class="product-list">
+            <li>Agarwood Oil</li><li>Aromatic Ginger Oil</li><li>Black Pepper Oil</li>
+            <li>Cajuput Oil</li><li>Cananga Oil</li><li>Cinnamon Bark Oil</li>
+            <li>Citronella Oil</li><li>Clove Bud Oil</li><li>Clove Leaf Oil</li>
+            <li>Clove Stem Oil</li><li>Coffee Oil</li><li>Eucalyptus Oil</li>
+            <li>Ginger Oil</li><li>Kaffir Lime Oil</li><li>Lavender Oil</li>
+            <li>Lemon Oil</li><li>Lemongrass Oil</li><li>Massoia Bark Oil</li>
+            <li>Nutmeg Oil</li><li>Oud Oil</li><li>Patchouli Oil</li>
+            <li>Peppermint Oil</li><li>Rosemary Oil</li><li>Sandalwood Oil</li>
+            <li>Sugandh Mantri Oil</li><li>Sweet Orange Oil</li><li>Tea Tree Oil</li>
+            <li>Vetiver Oil</li><li>Virgin Coconut Oil (VCO)</li><li>White Tea Oil</li>
+            <li>Ylang-Ylang Oil</li>
+        </ul>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
