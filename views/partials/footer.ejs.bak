@@ -63,26 +63,11 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
-    const mobileToggle = document.getElementById('mobileToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
-
-    if (mobileToggle && mobileMenu) {
-        mobileToggle.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
-            const icon = mobileToggle.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
-
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                const icon = mobileToggle.querySelector('i');
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-times');
-            });
-        });
+    function toggleMenu() {
+        const navLeft = document.getElementById('navLeft');
+        const navRight = document.getElementById('navRight');
+        navLeft.classList.toggle('active');
+        navRight.classList.toggle('active');
     }
 
     const openBtn = document.getElementById('openCatalogBtn');
