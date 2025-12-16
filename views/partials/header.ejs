@@ -268,10 +268,10 @@
         }
 
         @media (max-width: 992px) {
-            .navbar { justify-content: space-between; padding: 10px 20px; }
+            .navbar { justify-content: space-between; padding: 10px 20px; position: relative; }
             .nav-left, .nav-right { display: none; }
-            .mobile-toggle { display: block; }
-            .nav-logo-container { flex: 1; text-align: left; }
+            .mobile-toggle { display: block; position: absolute; right: 20px; }
+            .nav-logo-container { position: absolute; left: 50%; transform: translateX(-50%); }
             .nav-logo-img { height: 60px; }
 
             .hero-section { 
@@ -300,9 +300,6 @@
         @media (max-width: 576px) {
             .service-grid { grid-template-columns: 1fr; }
             .product-list { column-count: 1; }
-            .whatsapp-float span { display: none; }
-            .whatsapp-float { padding: 15px; }
-            .whatsapp-float i { font-size: 1.2rem; margin: 0; }
         }
     </style>
 </head>
