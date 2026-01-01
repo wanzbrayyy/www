@@ -14,6 +14,7 @@ const Comment = require('./models/comment');
 const User = require('./models/user');
 const Hero = require('./models/hero');
 const Service = require('./models/service');
+const Message = require('./models/message');
 
 const app = express();
 const server = http.createServer(app);
@@ -61,7 +62,6 @@ const runSeeder = async () => {
         const adminExist = await User.findOne({ username: 'admin' });
         if (!adminExist) {
             await User.create({ username: 'admin', password: '123' });
-            console.log('>>> Admin created: admin / 123');
         }
         const heroCount = await Hero.countDocuments();
         if (heroCount === 0) {
@@ -70,7 +70,6 @@ const runSeeder = async () => {
                 { title: "PRIVATE\nLABELLING", subtitle: "OEM & ODM", image: "hero2.jpg", order: 2 },
                 { title: "BUSINESS\nWITH", subtitle: "IMPACT", image: "hero3.jpg", order: 3 }
             ]);
-            console.log('>>> Hero Data Seeded');
         }
         const serviceCount = await Service.countDocuments();
         if (serviceCount === 0) {
@@ -82,7 +81,6 @@ const runSeeder = async () => {
                 { title: "Pharmaceutical Industries", description: "Used as anti-pain medication, infection and bacteria killer.", image: "srv5.jpg" },
                 { title: "Tobacco and Vape", description: "For kretek, white, klobot and vape cigarettes.", image: "srv6.jpg" }
             ]);
-            console.log('>>> Service Data Seeded');
         }
     } catch (err) {
         console.error("Seeder Error:", err);
@@ -150,6 +148,16 @@ app.get('/blog/:id', async (req, res) => {
     }
 });
 
+app.post('/contact/send', async (req, res) => {
+    try {
+        await Message.create(req.body);
+        req.flash('success_msg', 'Message sent successfully!');
+    } catch (error) {
+        req.flash('error_msg', 'Failed to send message.');
+    }
+    res.redirect(req.get('referer') || '/');
+});
+
 app.get('/auth/login', (req, res) => {
     if (req.session.user) return res.redirect('/admin');
     res.render('admin/login');
@@ -176,7 +184,13 @@ app.get('/admin', protect, async (req, res) => {
     const articles = await Article.find().sort({ createdAt: -1 });
     const heroes = await Hero.find().sort({ order: 1 });
     const services = await Service.find();
-    res.render('admin/dashboard', { articles, heroes, services });
+    const messages = await Message.find().sort({ createdAt: -1 });
+    res.render('admin/dashboard', { articles, heroes, services, messages });
+});
+
+app.delete('/admin/message/delete/:id', protect, async (req, res) => {
+    await Message.findByIdAndDelete(req.params.id);
+    res.redirect('/admin');
 });
 
 app.get('/admin/article/create', protect, (req, res) => {

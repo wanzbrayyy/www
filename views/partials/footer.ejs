@@ -15,7 +15,7 @@
                 </p>
                 <p style="margin-top: 15px; color: #fff; font-size: 0.9rem;">
                     <strong class="text-gold">Email:</strong><br>
-                    <a href="mailto:sales@plasmadinah.com" class="text-white">sales@plasmadinah.com</a>
+                    <a href="#" id="emailLink" class="text-white">sales@plasmadinah.com</a>
                 </p>
             </div>
 
@@ -60,9 +60,50 @@
     <span>Send enquiry</span>
 </a>
 
+<style>
+    .swal2-popup {
+        background-color: #111 !important;
+        color: #fff !important;
+        border: 1px solid var(--primary-gold);
+    }
+    .swal2-title {
+        color: var(--primary-gold) !important;
+    }
+    .swal2-input, .swal2-textarea {
+        background: #222 !important;
+        color: #fff !important;
+        border: 1px solid #444 !important;
+    }
+    .swal2-confirm {
+        background: var(--primary-gold) !important;
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+</style>
+
 <script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+    document.getElementById('emailLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Send us a message',
+            html: `
+                <form action="/contact/send" method="POST" id="contactForm">
+                    <input type="text" name="name" class="swal2-input" placeholder="Your Name" required>
+                    <input type="email" name="email" class="swal2-input" placeholder="Your Email" required>
+                    <textarea name="message" class="swal2-textarea" placeholder="Your Message..." required></textarea>
+                </form>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Send',
+            preConfirm: () => {
+                document.getElementById('contactForm').submit();
+            }
+        });
+    });
+
     const mobileToggle = document.getElementById('mobileToggle');
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');

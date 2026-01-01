@@ -1,7 +1,6 @@
 <%- include('../partials/header') %>
 
 <div class="container" style="padding: 40px 20px; background: #f4f4f4; color: #333; min-height: 100vh;">
-    <!-- HEADER ADMIN -->
     <div style="display: flex; justify-content: space-between; margin-bottom: 30px; border-bottom: 2px solid #bf9b30; padding-bottom: 10px;">
         <h2 style="font-family: sans-serif;">DASHBOARD ADMIN</h2>
         <div>
@@ -10,7 +9,6 @@
         </div>
     </div>
 
-    <!-- 1. HERO SECTION MANAGER (3 COLUMN IMAGES) -->
     <div style="background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 40px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
         <h3 style="margin-bottom: 15px;">Home Header Images (3 Columns)</h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
@@ -24,7 +22,6 @@
         </div>
     </div>
 
-    <!-- 2. SERVICES MANAGER -->
     <div style="background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 40px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
         <h3 style="margin-bottom: 15px;">B2B Services List</h3>
         <div style="overflow-x: auto;">
@@ -53,8 +50,7 @@
         </div>
     </div>
 
-    <!-- 3. ARTICLE MANAGER -->
-    <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <div style="background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 40px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
             <h3>Blog Articles</h3>
             <a href="/admin/article/create" style="background: #000; color: #bf9b30; padding: 8px 15px; border-radius: 20px; font-weight: bold;">+ New Article</a>
@@ -85,6 +81,38 @@
             </tbody>
         </table>
     </div>
+    
+    <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <h3 style="margin-bottom: 15px;">Inbox Messages</h3>
+        <table class="admin-table">
+            <thead>
+                <tr style="background: #eee;">
+                    <th>From</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% messages.forEach(msg => { %>
+                    <tr>
+                        <td><strong><%= msg.name %></strong></td>
+                        <td><%= msg.email %></td>
+                        <td style="font-size: 0.9rem; color: #666;"><%= msg.message %></td>
+                        <td>
+                            <form action="/admin/message/delete/<%= msg._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete message?');">
+                                <button type="submit" class="btn-action" style="background: #dc3545; color: #fff;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+                <% if(messages.length === 0) { %>
+                    <tr><td colspan="4" style="text-align: center;">No new messages.</td></tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <%- include('../partials/footer') %>
