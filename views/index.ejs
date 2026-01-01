@@ -263,7 +263,38 @@
 
 <%- include('partials/footer') %>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const emailLink = document.getElementById('emailLink');
+        if (emailLink) {
+            emailLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Send us a message',
+                    html: `
+                        <form action="/contact/send" method="POST" id="contactForm" style="display: flex; flex-direction: column; gap: 15px;">
+                            <input type="text" name="name" class="swal2-input" placeholder="Your Name" required>
+                            <input type="email" name="email" class="swal2-input" placeholder="Your Email" required>
+                            <textarea name="message" class="swal2-textarea" placeholder="Your Message..." required></textarea>
+                        </form>
+                    `,
+                    showCancelButton: true,
+                    confirmButtonText: 'Send',
+                    customClass: { popup: 'swal2-popup' },
+                    preConfirm: () => {
+                        const form = document.getElementById('contactForm');
+                        if (form.checkValidity()) {
+                            form.submit();
+                        } else {
+                            Swal.showValidationMessage('Please fill out all fields.');
+                        }
+                    }
+                });
+            });
+        }
+    });
+
     const openBtn = document.getElementById('openCatalogBtn');
     const closeBtn = document.getElementById('closeCatalogBtn');
     const modal = document.getElementById('productCatalogModal');
