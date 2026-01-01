@@ -73,11 +73,22 @@
         background: #222 !important;
         color: #fff !important;
         border: 1px solid #444 !important;
+        border-radius: 4px !important;
+    }
+    .swal2-input:focus, .swal2-textarea:focus {
+        border-color: var(--primary-gold) !important;
+        box-shadow: 0 0 0 3px rgba(191, 155, 48, 0.3) !important;
     }
     .swal2-confirm {
         background: var(--primary-gold) !important;
         color: #000 !important;
         font-weight: bold !important;
+        border-radius: 50px !important;
+        padding: 10px 30px !important;
+    }
+    .swal2-cancel {
+        background: #333 !important;
+        border-radius: 50px !important;
     }
 </style>
 
@@ -88,18 +99,26 @@
     document.getElementById('emailLink').addEventListener('click', function(e) {
         e.preventDefault();
         Swal.fire({
-            title: 'Send us a message',
+            title: 'Send Us a Message',
             html: `
-                <form action="/contact/send" method="POST" id="contactForm">
+                <form action="/contact/send" method="POST" id="contactForm" style="display: flex; flex-direction: column; gap: 15px;">
                     <input type="text" name="name" class="swal2-input" placeholder="Your Name" required>
                     <input type="email" name="email" class="swal2-input" placeholder="Your Email" required>
                     <textarea name="message" class="swal2-textarea" placeholder="Your Message..." required></textarea>
                 </form>
             `,
             showCancelButton: true,
-            confirmButtonText: 'Send',
+            confirmButtonText: 'Send Message',
+            customClass: {
+                popup: 'swal2-popup'
+            },
             preConfirm: () => {
-                document.getElementById('contactForm').submit();
+                const form = document.getElementById('contactForm');
+                if (form.checkValidity()) {
+                    form.submit();
+                } else {
+                    Swal.showValidationMessage('Please fill out all fields.');
+                }
             }
         });
     });
