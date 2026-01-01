@@ -72,8 +72,10 @@
         }
         .btn-gold:hover { background-color: var(--light-gold); color: #000; }
 
+        /* NAVBAR STYLES FIXED */
         .navbar {
-            padding: 10px 40px;
+            padding: 0 40px;
+            height: 90px;
             background-color: var(--primary-black);
             display: flex;
             justify-content: space-between;
@@ -83,30 +85,40 @@
             z-index: 1000;
             border-bottom: 1px solid #222;
         }
+
+        .nav-logo-container {
+            flex-shrink: 0;
+        }
         
         .nav-logo-img {
-            height: 80px;
+            height: 70px;
             width: auto;
-            max-width: 250px;
-            display: inline-block;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--primary-gold);
-            text-transform: uppercase;
+            display: block;
         }
 
         .nav-left, .nav-right {
             flex: 1;
             display: flex;
             align-items: center;
+            gap: 40px; /* Jarak antar menu */
         }
+
         .nav-left { justify-content: flex-start; }
         .nav-right { justify-content: flex-end; }
+
+        /* Styling Link Navbar Desktop */
+        .navbar-item {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .navbar-item:hover {
+            color: var(--text-white);
+        }
 
         .mobile-toggle { display: none; color: var(--primary-gold); font-size: 1.8rem; cursor: pointer; z-index: 1003; }
         
@@ -271,7 +283,7 @@
                 height: 80px;
             }
             .nav-left, .nav-right {
-                display: none;
+                display: none; /* Hilangkan menu desktop di mobile */
             }
             .nav-logo-container {
                 position: absolute;
@@ -280,7 +292,7 @@
                 transform: translate(-50%, -50%);
             }
             .nav-logo-img {
-                height: 60px;
+                height: 55px;
             }
             .mobile-toggle {
                 display: block;
@@ -323,9 +335,9 @@
 
 <nav class="navbar">
     <div class="nav-left">
-        <a href="/" class="nav-links">HOME</a>
-        <a href="#products" class="nav-links">PRODUCTS</a>
-        <a href="#b2b" class="nav-links">B2B</a>
+        <a href="/" class="navbar-item">HOME</a>
+        <a href="#products" class="navbar-item">PRODUCTS</a>
+        <a href="#b2b" class="navbar-item">B2B</a>
     </div>
 
     <div class="nav-logo-container">
@@ -335,10 +347,10 @@
     </div>
 
     <div class="nav-right">
-        <a href="#blog" class="nav-links">BLOG</a>
-        <a href="#footer" class="nav-links">CONTACT</a>
+        <a href="#blog" class="navbar-item">BLOG</a>
+        <a href="#footer" class="navbar-item">CONTACT</a>
         <% if(user) { %>
-            <a href="/admin" class="nav-links text-gold">ADMIN</a>
+            <a href="/admin" class="navbar-item text-gold">ADMIN</a>
         <% } %>
     </div>
 
@@ -349,11 +361,38 @@
 
 <div class="mobile-menu-overlay" id="mobileMenu">
     <div class="mobile-nav-links">
-        <a href="/">HOME</a>
-        <a href="#products">PRODUCTS</a>
-        <a href="#b2b">B2B</a>
-        <a href="#blog">BLOG</a>
-        <a href="#footer">CONTACT</a>
+        <a href="/" onclick="closeMenu()">HOME</a>
+        <a href="#products" onclick="closeMenu()">PRODUCTS</a>
+        <a href="#b2b" onclick="closeMenu()">B2B</a>
+        <a href="#blog" onclick="closeMenu()">BLOG</a>
+        <a href="#footer" onclick="closeMenu()">CONTACT</a>
         <% if(user) { %><a href="/admin">ADMIN</a><% } %>
     </div>
+    <div style="margin-top: 50px; font-size: 2rem; cursor: pointer; color: var(--primary-gold);" onclick="closeMenu()">
+        <i class="fas fa-times"></i>
+    </div>
 </div>
+
+<script>
+    // Script wajib untuk responsif mobile menu
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    mobileToggle.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
+    });
+
+    function closeMenu() {
+        mobileMenu.classList.remove('active');
+    }
+
+    // Menutup menu jika user klik di luar link
+    mobileMenu.addEventListener('click', (e) => {
+        if(e.target === mobileMenu) {
+            closeMenu();
+        }
+    });
+</script>
+
+</body>
+</html>
